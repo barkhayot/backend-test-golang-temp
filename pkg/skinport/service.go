@@ -13,9 +13,9 @@ type Config struct {
 
 type Option func(*Config)
 
-func WithFetchInterval(d time.Duration) Option {
+func WithFetchInterval(d int) Option {
 	return func(c *Config) {
-		c.fetchInterval = d
+		c.fetchInterval = time.Duration(d) * time.Minute
 	}
 }
 
@@ -65,4 +65,8 @@ func (s *Service) Run(ctx context.Context) {
 			return
 		}
 	}
+}
+
+func (s *Service) GetItems() []Item {
+	return s.state.getAll()
 }

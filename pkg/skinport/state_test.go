@@ -9,13 +9,13 @@ import (
 func TestNewState_Empty(t *testing.T) {
 	s := newState()
 
-	items := s.GetAll()
+	items := s.getAll()
 	if len(items) != 0 {
 		t.Fatalf("expected empty state, got %d items", len(items))
 	}
 }
 
-func TestState_SetAndGetAll(t *testing.T) {
+func TestState_SetAndgetAll(t *testing.T) {
 	s := newState()
 
 	items := []Item{
@@ -25,7 +25,7 @@ func TestState_SetAndGetAll(t *testing.T) {
 
 	s.set(items)
 
-	got := s.GetAll()
+	got := s.getAll()
 
 	if len(got) != len(items) {
 		t.Fatalf("expected %d items, got %d", len(items), len(got))
@@ -36,7 +36,7 @@ func TestState_SetAndGetAll(t *testing.T) {
 	}
 }
 
-func TestState_GetAllReturnsCopy(t *testing.T) {
+func TestState_getAllReturnsCopy(t *testing.T) {
 	s := newState()
 
 	items := []Item{
@@ -44,14 +44,14 @@ func TestState_GetAllReturnsCopy(t *testing.T) {
 	}
 	s.set(items)
 
-	got := s.GetAll()
+	got := s.getAll()
 
 	// mutate returned slice
 	got[0].MarketHashName = "HACKED"
 
-	again := s.GetAll()
+	again := s.getAll()
 	if again[0].MarketHashName == "HACKED" {
-		t.Fatalf("internal state was mutated via GetAll")
+		t.Fatalf("internal state was mutated via getAll")
 	}
 }
 
@@ -67,7 +67,7 @@ func TestState_ConcurrentReads(t *testing.T) {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			_ = s.GetAll()
+			_ = s.getAll()
 		}()
 	}
 
@@ -92,7 +92,7 @@ func TestState_ReadWhileWrite(t *testing.T) {
 	go func() {
 		defer wg.Done()
 		for i := 0; i < 100; i++ {
-			_ = s.GetAll()
+			_ = s.getAll()
 		}
 	}()
 

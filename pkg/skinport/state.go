@@ -15,7 +15,7 @@ func newState() *State {
 	}
 }
 
-func (s *State) GetAll() []Item {
+func (s *State) getAll() []Item {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 

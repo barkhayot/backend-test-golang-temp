@@ -14,7 +14,7 @@ import (
 const (
 	// https://docs.skinport.com/items
 	baseURL      = "https://api.skinport.com/v1/items"
-	fetchTimeout = 5 * time.Second
+	fetchTimeout = 10 * time.Second // can be decreased if needed
 
 	// rate limit: 8 requests per 5 minutes
 	// should be > 37.5s to respect rate limit
